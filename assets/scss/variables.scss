@@ -1,0 +1,153 @@
+// Colours
+// =========================================================================
+
+$primary: #BF7B5B;
+
+$text-color: #fff;
+
+$background-color: #28324F;
+
+// z-index
+// =========================================================================
+
+$z-header: 10;
+
+// Animation
+// =========================================================================
+
+$ease-in-out-back:  cubic-bezier(.51,2.71,.52,.56);
+$ease-sliding: cubic-bezier(0.385, 0.860, 0.360, 0.950);
+
+@keyframes spinCentre {
+	from { transform: translate3d(-50%, -50%, 0) rotate(0deg) }
+	to { transform: translate3d(-50%, -50%, 0) rotate(360deg) }
+}
+
+
+// Fonts
+// =========================================================================
+
+$font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+
+// Sizes
+// =========================================================================
+
+$spacer: 40px;
+
+// Media Queries (Misc)
+// =========================================================================
+
+$still: '(prefers-reduced-motion: reduce)';
+
+// Responsive
+// =========================================================================
+
+$xs-min: 34em;
+$sm-min: 48em;
+$md-min: 62em;
+$lg-min: 75em;
+
+$container-width: 1400px;
+
+$container: '(min-width: #{$container-width + $spacer*2})';
+$container-up: '(min-width: #{$container-width + $spacer*2})';
+$container-down: '(max-width: #{$container-width + $spacer*2})';
+
+$xs-viewport: '(min-width: #{$xs-min})';
+$sm-viewport: '(min-width: #{$sm-min})';
+$md-viewport: '(min-width: #{$md-min})';
+$lg-viewport: '(min-width: #{$lg-min})';
+
+$xs-viewport-down: '(max-width: #{$xs-min})';
+$sm-viewport-down: '(max-width: #{$sm-min})';
+$md-viewport-down: '(max-width: #{$md-min})';
+$lg-viewport-down: '(max-width: #{$lg-min})';
+
+// Functions
+// =========================================================================
+
+/**
+ * Round the given number to a set number of decimals
+ * @see https://stackoverflow.com/a/29901280/550109
+ */
+@function decimal-round ($number, $digits: 0, $mode: round) {
+	$n: 1;
+
+	// $number must be a number
+	@if type-of($number) != number {
+		@warn '#{ $number } is not a number.';
+		@return $number;
+	}
+
+	// $digits must be a unitless number
+	@if type-of($digits) != number {
+		@warn '#{ $digits } is not a number.';
+		@return $number;
+	} @else if not unitless($digits) {
+		@warn '#{ $digits } has a unit.';
+		@return $number;
+	}
+
+	@for $i from 1 through $digits {
+		$n: $n * 10;
+	}
+
+	@if $mode == round {
+		@return round($number * $n) / $n;
+	} @else if $mode == ceil {
+		@return ceil($number * $n) / $n;
+	} @else if $mode == floor {
+		@return floor($number * $n) / $n;
+	} @else {
+		@warn '#{ $mode } is undefined keyword.';
+		@return $number;
+	}
+}
+
+/**
+ * Convert the given PX size to REMs
+ */
+@function size ($targetSize, $baseSize: 16) {
+	@return #{decimal-round($targetSize / $baseSize, 3)}rem;
+}
+
+// Mixins
+// =========================================================================
+
+/**
+ * $maxFontSize - The max font size (also the fallback)
+ */
+@mixin responsiveSize($minFontSize, $maxFontSize, $minScreenWidth: 400, $maxScreenWidth: 1260) {
+	$fontDiff: $maxFontSize - $minFontSize;
+	$screenDiff: $maxScreenWidth - $minScreenWidth;
+	font-size: #{$maxFontSize}px;
+	font-size: calc(#{$minFontSize}px + (#{$fontDiff}) * (100vw - #{$minScreenWidth}px) / (#{$screenDiff}));
+
+	@media (min-width: #{$maxScreenWidth}px) {
+		font-size: #{$maxFontSize}px;
+	}
+
+	@media (max-width: #{$minScreenWidth}px) {
+		font-size: #{$minFontSize}px;
+	}
+}
+
+// Classes
+// =========================================================================
+
+.container {
+	width: 100%;
+	max-width: $container-width;
+	margin: auto;
+}
+
+.grid {
+	@extend .container;
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: $spacer;
+
+	@media #{$sm-viewport-down} {
+		grid-column-gap: 0;
+	}
+}

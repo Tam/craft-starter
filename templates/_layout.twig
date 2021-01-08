@@ -1,0 +1,32 @@
+{% minify %}
+{% set useCritical = getenv('CRITICAL') == 'true' %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% hook 'seo' %}
+    {% set styleUrl = url('assets/css/' ~ craft.b.manifest('style.scss')) %}
+    {% if useCritical %}
+        <link rel="preload" type="text/css" href="{{ styleUrl }}" media="all" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="{{ styleUrl }}" media="all"/>
+        </noscript>
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ styleUrl }}" media="all"/>
+    {% endif %}
+    {{ head() }}
+</head>
+<body>
+{{ beginBody() }}
+
+{% block content %}{% endblock %}
+
+{{ endBody() }}
+{% if useCritical %}
+    {% js '!function(){if(!!function(){try{return document.createElement("link").supports("preload")}catch(e){return false}}()){return}var a=[].slice.call(document.querySelectorAll("link[rel=preload][type*=css]"));a.forEach(function(s){var l=document.createElement("link");l.href=s.href;l.rel="stylesheet";l.type="text/css";document.querySelector("head").appendChild(l)})}();' %}
+{% endif %}
+</body>
+</html>
+{% endminify %}

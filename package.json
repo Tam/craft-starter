@@ -1,0 +1,23 @@
+{
+  "name": "reveal-media",
+  "repository": "https://Tam@github.com/ethercreative/reveal-media.git",
+  "private": true,
+  "build": {
+    "js": {
+      "run": false
+    },
+    "copy": {
+      "run": true,
+      "paths": {
+        "assets/fonts": "assets/fonts"
+      }
+    },
+    "critical": {
+      "baseUrl": "https://dev.revealmedia.co.uk",
+      "cssUrl": "/assets/css/[style.scss]",
+      "paths": {
+        "index": "/"
+      }
+    }
+  }
+}

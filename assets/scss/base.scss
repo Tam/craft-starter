@@ -1,0 +1,80 @@
+@import "variables";
+
+* {
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+	text-rendering: optimizeLegibility !important;
+	-webkit-font-smoothing: antialiased !important;
+	box-sizing: border-box;
+	font-family: $font-family;
+}
+
+html {
+	height: 100%;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	scroll-behavior: smooth;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased !important;
+
+	@include responsiveSize(14, 16);
+	font-family: $font-family;
+	font-weight: normal;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	position: relative;
+	min-height: 100%;
+
+	color: $text-color;
+	text-underline-offset: 0.1rem;
+
+	background-color: $background-color;
+
+	overflow-x: hidden;
+
+	&.nav-open {
+		overflow: hidden;
+	}
+}
+
+::selection {
+	color: $text-color;
+	background-color: fade_out($primary, 0.3);
+}
+
+picture {
+	position: relative;
+	z-index: 1;
+	display: block;
+	width: 100%;
+
+	font-size: 0;
+
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+picture > img {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+picture > img:first-child:last-child {
+	position: relative;
+}
+
+picture > img:first-child {
+	z-index: -1;
+	height: 100%;
+	object-fit: cover;
+}
+
+picture > img:last-child {
+	z-index: 0;
+	transition: opacity 0.15s ease;
+}
