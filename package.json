@@ -1,6 +1,6 @@
 {
-  "name": "reveal-media",
-  "repository": "https://Tam@github.com/ethercreative/reveal-media.git",
+  "name": "site-name",
+  "repository": "https://Tam@github.com/ethercreative/site-name.git",
   "private": true,
   "build": {
     "js": {
@@ -13,7 +13,7 @@
       }
     },
     "critical": {
-      "baseUrl": "https://dev.revealmedia.co.uk",
+      "baseUrl": "https://dev.sitename.com",
       "cssUrl": "/assets/css/[style.scss]",
       "paths": {
         "index": "/"
