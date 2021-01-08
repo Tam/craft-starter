@@ -104,11 +104,22 @@ $lg-viewport-down: '(max-width: #{$lg-min})';
 	}
 }
 
+/// Remove the unit of a length
+/// @param {Number} $number - Number to remove unit from
+/// @return {Number} - Unitless number
+@function strip-unit($number) {
+	@if type-of($number) == 'number' and not unitless($number) {
+		@return $number / ($number * 0 + 1);
+	}
+
+	@return $number;
+}
+
 /**
  * Convert the given PX size to REMs
  */
 @function size ($targetSize, $baseSize: 16) {
-	@return #{decimal-round($targetSize / $baseSize, 3)}rem;
+	@return #{decimal-round(strip-unit($targetSize) / $baseSize, 3)}rem;
 }
 
 // Mixins
